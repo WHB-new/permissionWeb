@@ -78,14 +78,18 @@ export default {
             // 登录成功后获取用户roles
             const res = await handleLogin(this.loginForm.username, this.loginForm.password)
             if (res.code === 0) {
-              sessionStorage.setItem('token', JSON.stringify(res.data.token))
+              sessionStorage.setItem('token', res.data.token)
               await this.$store.dispatch('user/setUserRoutes')
               this.loading = false;
+              const routes = this.$store.state.user.userRoutes
+              routes.forEach(route => {
+                this.$router.addRoute('Home', route)
+              })
               this.$message({
                 message: res.msg,
                 type: 'success'
               });
-              this.$router.push('/stopCar');
+              this.$router.push({ path: '/stopCar' })
             }
             }catch(error) {
               this.loading = false;

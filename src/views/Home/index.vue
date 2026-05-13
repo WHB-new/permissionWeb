@@ -21,7 +21,7 @@
           <el-dropdown trigger="click" @command="handleDropDown">
             <div class="avatar-wrapper">
               <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" class="avatar" />
-              <span class="name">Admin</span>
+              <span class="name">{{userName}}</span>
               <i class="el-icon-caret-bottom"></i>
             </div>
             <el-dropdown-menu slot="dropdown">
@@ -96,6 +96,9 @@ export default {
     // children带有完整路劲，用于侧边栏跳转
     enrichedRoutes() {
       return this.getRouteFullPath(this.userRoutes)
+    },
+    userName() {
+      return sessionStorage.getItem('token')
     }
   },
   watch: {

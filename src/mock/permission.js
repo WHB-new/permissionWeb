@@ -52,7 +52,7 @@ const asyncRoutes = [
 const routesMap = ['user', "admin"]
 function filterRoutes(routes, role) {
   return routes.filter(route => {
-    const hasRole = !route.meta?.roles || route.meta.roles.indexOf(role);
+    const hasRole = route.meta?.roles && route.meta.roles.includes(role);
     if (!hasRole) return false;
     if (route.children && route.children.length > 0) {
       route.children = filterRoutes(route.children, role);
@@ -67,8 +67,7 @@ export function getUserRoutes(roles) {
    const data = {
      userRoutes: []
    }
-   // includes判断不够准确 采用indexOf
-    if (!routesMap.indexOf(roles)) {
+    if (!routesMap.includes(roles)) {
       return Promise.reject({
         code: 400,
         msg: '没有找到该角色',
